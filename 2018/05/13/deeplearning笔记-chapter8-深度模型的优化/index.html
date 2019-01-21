@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="deeplearning笔记,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="深度模型的优化优化的问题：寻找一组参数，能够显著的降低损失函数。损失函数通常包括整个数据集上的性能评估和额外的正则化">
+<meta name="keywords" content="deeplearning笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deeplearning笔记-chapter8-深度模型的优化">
+<meta property="og:url" content="http://gjwei.github.io/2018/05/13/deeplearning笔记-chapter8-深度模型的优化/index.html">
+<meta property="og:site_name" content="gjwei">
+<meta property="og:description" content="深度模型的优化优化的问题：寻找一组参数，能够显著的降低损失函数。损失函数通常包括整个数据集上的性能评估和额外的正则化">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frarzxnhv8j20pv099acd.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180515222141.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180515222238.png">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frcecub9goj20pd0bi0vn.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frd9u5iz8sj20go05odga.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frd9w7glq8j20go05ot97.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-4d8690ecd797c7702a00f5d28608be8f_hd.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frd9yzf6u4j20go04s3yx.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdagc2xncj20o90cfq62.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdahay3f4j20p40d4tbz.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdaihlsm5j20pw0k2wjv.jpg">
+<meta property="og:image" content="http://cs231n.github.io/assets/nn3/opt2.gif">
+<meta property="og:image" content="http://cs231n.github.io/assets/nn3/opt1.gif">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdes0n7qlj20l801wglp.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdesl4f33j208k01yglg.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdeyh9et4j20cr02jgli.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdexvp6r5j20pw0j00z5.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frdfawyi3gj20k00fw7bp.jpg">
+<meta property="og:updated_time" content="2018-09-05T14:32:52.782Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="deeplearning笔记-chapter8-深度模型的优化">
+<meta name="twitter:description" content="深度模型的优化优化的问题：寻找一组参数，能够显著的降低损失函数。损失函数通常包括整个数据集上的性能评估和额外的正则化">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/9244e6f1gy1frarzxnhv8j20pv099acd.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gjwei.github.io/2018/05/13/deeplearning笔记-chapter8-深度模型的优化/">
+
+
+
+
+
+  <title>deeplearning笔记-chapter8-深度模型的优化 | gjwei</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">gjwei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/13/deeplearning笔记-chapter8-深度模型的优化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gjwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gjwei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">deeplearning笔记-chapter8-深度模型的优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T20:27:21+08:00">
+                2018-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/13/deeplearning笔记-chapter8-深度模型的优化/" class="leancloud_visitors" data-flag-title="deeplearning笔记-chapter8-深度模型的优化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="深度模型的优化"><a href="#深度模型的优化" class="headerlink" title="深度模型的优化"></a>深度模型的优化</h1><p>优化的问题：寻找一组参数，能够显著的降低损失函数。损失函数通常包括整个数据集上的性能评估和额外的正则化<br><a id="more"></a></p>
+<h2 id="学习和纯粹的优化的不同"><a href="#学习和纯粹的优化的不同" class="headerlink" title="学习和纯粹的优化的不同"></a>学习和纯粹的优化的不同</h2><p>深度学习的优化算法和和传统的优话算法有几个方面的不同：</p>
+<ul>
+<li>在深度学习/机器学习的优化过程中，我们关注某些性能度量P,但是它可能是不可求解的，所以，我们是间接的优化P。我们希望通过降低代价函数 $J(\theta)$来提高P</li>
+<li>而纯优化是最小化目标J本身。</li>
+</ul>
+<h3 id="经验风险最小化"><a href="#经验风险最小化" class="headerlink" title="经验风险最小化"></a>经验风险最小化</h3><p>最小化平均训练误差的训练过程是经验风险最小化的过程。</p>
+<h3 id="代理损失函数"><a href="#代理损失函数" class="headerlink" title="代理损失函数"></a>代理损失函数</h3><p>我们真正关心的损失函数（比如分类误差）并不能高效的优化（因为不是凸函数）。例如，在二元分类中，我们真正关心的是0-1损失函数，<br>$$ l(y,y^)=∑_{i=1}^mχ(yi≠y^i) $$<br>但是，这个损失函数无法进行优化。</p>
+<p>这种情况下，我们会选择使用代理损失函数，将原来的优化问题转化为一个近似的优化问题，而且近似的优化问题更容易求解。</p>
+<p>提前终止</p>
+<h3 id="批量算法和小批量算法"><a href="#批量算法和小批量算法" class="headerlink" title="批量算法和小批量算法"></a>批量算法和小批量算法</h3><ol>
+<li><p>假设样本之间独立，那么n个样本的均值的标准差是$\sigma / \sqrt{n}$，其中$\sigma$是样本值的真是方差，分母为$\sqrt{n}$表示更多的样本来估计梯度的方法的回报是小于线性的。</p>
+</li>
+<li><p>计算量的问题。</p>
+</li>
+</ol>
+<p>所以，我么会采用随机采样少量样本作为一个batch，然后计算平均值。</p>
+<p>使用整个训练集的优化算法成为<strong>批量或者确定性</strong></p>
+<p>深度学习采用的是小批量或者<strong>小批量随机</strong>d的方法，通常简称为*随机（stochastic）方法</p>
+<p>小批量带下通常由以下因素决定：</p>
+<ul>
+<li>大批量会得到更加准确的梯度，但是回报是小于线性的</li>
+<li>极小的批量无法充分利用多核的架构</li>
+<li>批量大小和内存占用成正比</li>
+<li>硬件对于特征的数（比如2的指数）的运行时间更小</li>
+<li>小批量在学习过程中增加了噪音的影响，一定程度上起到了正则化的方法</li>
+</ul>
+<p>不同的优化算法从不同的小批量中获取到不同的信息，一般而言，基于梯度的更新g相对鲁棒，在较小的批量就能成功，比如100.</p>
+<p>基于Hessian矩阵的二阶更新方法则通常需要更大的批量。</p>
+<p><strong>小批量是随机抽取的这点很重要，因为样本的无偏估计要求样本之间是独立的。</strong>通常的做法是将训练样本shuffle。</p>
+<h2 id="神经网络中的挑战"><a href="#神经网络中的挑战" class="headerlink" title="神经网络中的挑战"></a>神经网络中的挑战</h2><h2 id="病态问题"><a href="#病态问题" class="headerlink" title="病态问题"></a>病态问题</h2><p>病态体现在随机梯度”卡“在某个位置，此时即使很小的更新步长也大大增加代价函数。</p>
+<h3 id="局部极小值"><a href="#局部极小值" class="headerlink" title="局部极小值"></a>局部极小值</h3><p>对于非凸的问题，如深度学习，有可能存在多个局部极小值。</p>
+<p>但是，大多数局部极小值都具有很小的代价函数，我们能不能找到全局最小点并不重要。</p>
+<h3 id="高原、鞍点和其他平坦区域"><a href="#高原、鞍点和其他平坦区域" class="headerlink" title="高原、鞍点和其他平坦区域"></a>高原、鞍点和其他平坦区域</h3><p>对于高纬度非凸函数，局部极小值实际上都远小于另一种梯度为0的点：鞍点。</p>
+<p>在鞍点出，Hessian矩阵同时有正负特征值。</p>
+<p>Hessian在极小值处只有正特征值。</p>
+<h3 id="悬崖和梯度爆炸哦"><a href="#悬崖和梯度爆炸哦" class="headerlink" title="悬崖和梯度爆炸哦"></a>悬崖和梯度爆炸哦</h3><p>遇到梯度极大的悬崖结构，梯度更新很大将可能导致权值远离最优点</p>
+<p>解决方法：梯度截断的方法。</p>
+<h3 id="长期依赖"><a href="#长期依赖" class="headerlink" title="长期依赖"></a>长期依赖</h3><p>主要出现在序列模型中，由于变深的结构使得模型丧失了学习到先前信息的能力，让优化变得困难。</p>
+<p>在多个事件步上讲输入重复和权值W相乘，将会导致结果丢弃了x中与权值W的主特征向量正交的成分。</p>
+<h2 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h2><h3 id="随机梯度下降"><a href="#随机梯度下降" class="headerlink" title="随机梯度下降"></a>随机梯度下降</h3><p>按照数据生成分布抽取m个独立同分布的赝本，九三他们的梯度均值，就可以得到梯度的无偏估计</p>
+<p><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frarzxnhv8j20pv099acd.jpg" alt=""></p>
+<p>在实践中，我们有必要随着时间推移逐渐降低学习率。</p>
+<h3 id="动量"><a href="#动量" class="headerlink" title="动量"></a>动量</h3><p>动量算法主要是用在加速训练，忒儿是处理高曲率，小但一致的梯度，或者是有噪音的梯度。</p>
+<p>动量算法积累了之前的梯度指数级衰减的移动平均，并且在这个方向上继续移动。<br>学习的效果图：<br><img src="https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180515222141.png" alt=""></p>
+<p>学习的算法是：<br><img src="https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180515222238.png" alt=""></p>
+<h3 id="Neserov动量"><a href="#Neserov动量" class="headerlink" title="Neserov动量"></a>Neserov动量</h3><p>对动量的方法进行了一次修正。在Nesterov动量中，梯度计算是在施加当前动量之后。可以解释为在标准动量方法中增加了一个矫正因子。<br>算法如下：<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frcecub9goj20pd0bi0vn.jpg" alt=""></p>
+<p>其实，在随机梯度的情况下，nesterov并没没有改进收敛。</p>
+<h2 id="参数初始化策略"><a href="#参数初始化策略" class="headerlink" title="参数初始化策略"></a>参数初始化策略</h2><p>初始化的策略会影响到深度学习模型的收敛情况。</p>
+<p>初始化参数需要在不同单元间”破坏对称性“。如果两个在同一层的神经元的参数相同，那么学习算法将会使参数以相同的方向更新。</p>
+<p>我们几乎总是初始化模型的权重为<strong>高斯或者均匀分布</strong>的值，二者的选择似乎不会有很大的区别。</p>
+<p>更大的初始化权值具有更强的破坏对称性的作用，有助于避免冗余的单元。同时也有助于增强梯度传播的信号强度。但是，如果初始化权重太大，那么可能在前向传播或者反向传播中产生梯度爆炸的值。</p>
+<p>同时，较大的权重也会容易使得激活函数饱和，导致饱和的单元的梯度完全消失。</p>
+<h3 id="如何继续初始化？"><a href="#如何继续初始化？" class="headerlink" title="如何继续初始化？"></a>如何继续初始化？</h3><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/25931903" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25931903</a></p>
+<p>当我们对参数进行随机初始化时候，如果初始化的参数很小，得到的激活值会很快接近于0（(Tanh)，同时，梯度在进行反向传播的时候会累乘每一层的权值，权值过小，会导致梯度变得很小，参数无法更新。<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frd9u5iz8sj20go05odga.jpg" alt=""></p>
+<p>此外，如果初始化的参数很大，则每一层的输出都非常大，经过激活函数之后的输出集中在-1和1上，此事，激活函数是出于饱和的情况，导数接近于0.在进行反向传播的时候，会导致梯度消失。<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frd9w7glq8j20go05ot97.jpg" alt=""></p>
+<p><strong>Xavier initialization</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = Variable(np.random.randn(node_in, node_out)) / np.sqrt(node_in)</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic4.zhimg.com/80/v2-4d8690ecd797c7702a00f5d28608be8f_hd.jpg" alt=""><br>这种方法对于tanh激活函数有效，但是对于ReLU激活函数，还是会出现输出值趋近于0的情况。<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frd9yzf6u4j20go04s3yx.jpg" alt=""></p>
+<p><strong>He initialization</strong><br>He initialization的思想是：在ReLU网络中，假定每一层有一半的神经元被激活，另一半为0，所以，要保持variance不变，只需要在Xavier的基础上再除以2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = Variable(np.random.randn(node_in, node_out) / np.sqrt(node_in / 2))</span><br></pre></td></tr></table></figure>
+<p>推荐在ReLu网络中使用</p>
+<p><strong>BatchNormalization</strong><br>对输出进行重新的normlization。</p>
+<h2 id="自适应是学习算法"><a href="#自适应是学习算法" class="headerlink" title="自适应是学习算法"></a>自适应是学习算法</h2><p>自适应的学习算法是通过累积二阶动量的信息（梯度的平方和），然后将学习率处于二阶动量的根号。通过这种方法，<strong>可以让具有损失最大偏导的参数的学习率下降快，而具有小偏导的参数的学习率具有相对较小的下降</strong></p>
+<h3 id="Adagrad"><a href="#Adagrad" class="headerlink" title="Adagrad"></a>Adagrad</h3><p><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdagc2xncj20o90cfq62.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Assume the gradient dx and parameter vector x</span><br><span class="line">cache += dx**2</span><br><span class="line">x += - learning_rate * dx / (np.sqrt(cache) + eps)</span><br></pre></td></tr></table></figure>
+<h3 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h3><p>在Adagrad的基础上，对二阶动量进行了指数加权衰减。使得在找到凸碗状结构后能够快速收敛<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdahay3f4j20p40d4tbz.jpg" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cache = decay_rate * cache + (1 - decay_rate) * dx**2</span><br><span class="line">x += - learning_rate * dx / (np.sqrt(cache) + eps)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h3><p>增加了一阶的动量<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdaihlsm5j20pw0k2wjv.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># t is your iteration counter going from 1 to infinity</span><br><span class="line">m = beta1*m + (1-beta1)*dx</span><br><span class="line">mt = m / (1-beta1**t)</span><br><span class="line">v = beta2*v + (1-beta2)*(dx**2)</span><br><span class="line">vt = v / (1-beta2**t)</span><br><span class="line">x += - learning_rate * mt / (np.sqrt(vt) + eps)</span><br></pre></td></tr></table></figure>
+<p><img src="http://cs231n.github.io/assets/nn3/opt2.gif" alt=""><br><img src="http://cs231n.github.io/assets/nn3/opt1.gif" alt=""></p>
+<h2 id="二阶近似方法"><a href="#二阶近似方法" class="headerlink" title="二阶近似方法"></a>二阶近似方法</h2><h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>牛顿法是基于二阶的泰勒级数展开得到的。其忽略了高阶的导数。<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdes0n7qlj20l801wglp.jpg" alt=""><br>然后以就可以得到牛顿参数的更新规则：<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdesl4f33j208k01yglg.jpg" alt=""></p>
+<p>对于非二次的表面，只要Hessian矩阵保持正定，牛顿法就能够进行迭代使用。这意味着一个两步迭代的过程。</p>
+<p>在深度学习中，目标函数表面通常具有非凸的特点，如鞍点，这个时候如果Hessian矩阵的特征值不全是正的，牛顿法实际上会朝着错误的方向进行更新。这种情况可以通过正则化Hessian避免。<br>常用的正则化方法是在Hessian矩阵的对角线上增加常数$\alpha$</p>
+<p>这个时候，更新的公式就变成了：<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdeyh9et4j20cr02jgli.jpg" alt=""></p>
+<p><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdexvp6r5j20pw0j00z5.jpg" alt=""></p>
+<h2 id="优化技巧和元算法"><a href="#优化技巧和元算法" class="headerlink" title="优化技巧和元算法"></a>优化技巧和元算法</h2><h3 id="batch-normalization"><a href="#batch-normalization" class="headerlink" title="batch normalization"></a>batch normalization</h3><p>他不是一个优化算法，而是一个自适应的重新参数化的方法，试图解决训练非常深的模型的困难。</p>
+<p>在实践中，我们同时更新参数的所有层。某一层的参数的更新的假设是其他层的参数没有变化，而实际上，其他层的参数也是在发生变化的。这个就是Internal Covariate Shift”</p>
+<p><strong>BatchNormalization</strong>提出一种几乎可以重新参数化所有深度网络的优雅方法，通过重新参数化显著减少了多层之间的协调更新问题。<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1frdfawyi3gj20k00fw7bp.jpg" alt=""></p>
+<p>为何可以解决梯度消失问题：</p>
+<p><strong>在BN中，是通过将activation规范为均值和方差一致的手段使得原本会减小的activation的scale变大。</strong></p>
+<h3 id="坐标下降"><a href="#坐标下降" class="headerlink" title="坐标下降"></a>坐标下降</h3><p>在某些情况下，可以将一个优化的问题分解成几个部分，可以更快的解决这个问题。如果我们对于某个单一变量$x_i$最小化f(x),然后相对于另外一个变量$x_j$更新,反复循环所有变量，可以保证到达极小值。这种方法是坐标下降方法。</p>
+<h3 id="监督预训练"><a href="#监督预训练" class="headerlink" title="监督预训练"></a>监督预训练</h3><p>在直接训练目标模型求解目标问题之前，训练简单的模型求解简化问题的方法统称为预训练。</p>
+<p>贪心算法是将问题分解为许多部分，独立的在每个部分求解最优值。贪心算法虽然不能保证得到最优值，但是比求解最优联合解的算法高效的多。</p>
+<p>贪心算法后面可以紧接着一个精调（find-tuning)阶段，搜索最优解。</p>
+<h4 id="贪心监督预训练方法"><a href="#贪心监督预训练方法" class="headerlink" title="贪心监督预训练方法"></a>贪心监督预训练方法</h4><p>每个阶段包括一个仅涉及最终神经网络的子集层的监督学习训练的任务。这种方法可以更好地指导深层次网络的中间层学习。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/deeplearning笔记/" rel="tag"># deeplearning笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/13/deeplearning-nature/" rel="next" title="deeplearning-nature">
+                <i class="fa fa-chevron-left"></i> deeplearning-nature
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/14/paper-xgboost/" rel="prev" title="paper-xgboost">
+                paper-xgboost <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpeg" alt="gjwei">
+            
+              <p class="site-author-name" itemprop="name">gjwei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/gjwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:gjwei1993@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#深度模型的优化"><span class="nav-number">1.</span> <span class="nav-text">深度模型的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习和纯粹的优化的不同"><span class="nav-number">1.1.</span> <span class="nav-text">学习和纯粹的优化的不同</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#经验风险最小化"><span class="nav-number">1.1.1.</span> <span class="nav-text">经验风险最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理损失函数"><span class="nav-number">1.1.2.</span> <span class="nav-text">代理损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量算法和小批量算法"><span class="nav-number">1.1.3.</span> <span class="nav-text">批量算法和小批量算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络中的挑战"><span class="nav-number">1.2.</span> <span class="nav-text">神经网络中的挑战</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#病态问题"><span class="nav-number">1.3.</span> <span class="nav-text">病态问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#局部极小值"><span class="nav-number">1.3.1.</span> <span class="nav-text">局部极小值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高原、鞍点和其他平坦区域"><span class="nav-number">1.3.2.</span> <span class="nav-text">高原、鞍点和其他平坦区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#悬崖和梯度爆炸哦"><span class="nav-number">1.3.3.</span> <span class="nav-text">悬崖和梯度爆炸哦</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长期依赖"><span class="nav-number">1.3.4.</span> <span class="nav-text">长期依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本算法"><span class="nav-number">1.4.</span> <span class="nav-text">基本算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#随机梯度下降"><span class="nav-number">1.4.1.</span> <span class="nav-text">随机梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动量"><span class="nav-number">1.4.2.</span> <span class="nav-text">动量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neserov动量"><span class="nav-number">1.4.3.</span> <span class="nav-text">Neserov动量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数初始化策略"><span class="nav-number">1.5.</span> <span class="nav-text">参数初始化策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何继续初始化？"><span class="nav-number">1.5.1.</span> <span class="nav-text">如何继续初始化？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自适应是学习算法"><span class="nav-number">1.6.</span> <span class="nav-text">自适应是学习算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Adagrad"><span class="nav-number">1.6.1.</span> <span class="nav-text">Adagrad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RMSProp"><span class="nav-number">1.6.2.</span> <span class="nav-text">RMSProp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adam"><span class="nav-number">1.6.3.</span> <span class="nav-text">Adam</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二阶近似方法"><span class="nav-number">1.7.</span> <span class="nav-text">二阶近似方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#牛顿法"><span class="nav-number">1.7.1.</span> <span class="nav-text">牛顿法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化技巧和元算法"><span class="nav-number">1.8.</span> <span class="nav-text">优化技巧和元算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#batch-normalization"><span class="nav-number">1.8.1.</span> <span class="nav-text">batch normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坐标下降"><span class="nav-number">1.8.2.</span> <span class="nav-text">坐标下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监督预训练"><span class="nav-number">1.8.3.</span> <span class="nav-text">监督预训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贪心监督预训练方法"><span class="nav-number">1.8.3.1.</span> <span class="nav-text">贪心监督预训练方法</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gjwei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("r9j2nTnIAVIUC4MK0RxH4MVB-gzGzoHsz", "03lDaSdBNXVDh3Mjf9C9hzsP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="概率,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概率题 一个桶里面有白球、黑球各100个，现在按下述规则取球：    i 、每次从桶里面拿出来两个球；  ii、如果取出的是两个同色的求，就再放入一个黑球；  iii、如果取出的是两个异色的求，就再放入一个白球。问：最后桶里面只剩下一个黑球的概率是多少？答：动态规划，令f[i,j]表示有i个白球，j个黑球的概率。已知f[100,100] = 1/2, 求f[0,1]。拿到两个白球: f[i-2,j">
+<meta name="keywords" content="概率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率题">
+<meta property="og:url" content="http://gjwei.github.io/2018/05/08/概率面试题/index.html">
+<meta property="og:site_name" content="gjwei">
+<meta property="og:description" content="概率题 一个桶里面有白球、黑球各100个，现在按下述规则取球：    i 、每次从桶里面拿出来两个球；  ii、如果取出的是两个同色的求，就再放入一个黑球；  iii、如果取出的是两个异色的求，就再放入一个白球。问：最后桶里面只剩下一个黑球的概率是多少？答：动态规划，令f[i,j]表示有i个白球，j个黑球的概率。已知f[100,100] = 1/2, 求f[0,1]。拿到两个白球: f[i-2,j">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gjwei.github.io/2018/05/08/概率面试题/1522804773994.png">
+<meta property="og:updated_time" content="2018-09-05T14:32:52.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="概率题">
+<meta name="twitter:description" content="概率题 一个桶里面有白球、黑球各100个，现在按下述规则取球：    i 、每次从桶里面拿出来两个球；  ii、如果取出的是两个同色的求，就再放入一个黑球；  iii、如果取出的是两个异色的求，就再放入一个白球。问：最后桶里面只剩下一个黑球的概率是多少？答：动态规划，令f[i,j]表示有i个白球，j个黑球的概率。已知f[100,100] = 1/2, 求f[0,1]。拿到两个白球: f[i-2,j">
+<meta name="twitter:image" content="http://gjwei.github.io/2018/05/08/概率面试题/1522804773994.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gjwei.github.io/2018/05/08/概率面试题/">
+
+
+
+
+
+  <title>概率题 | gjwei</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">gjwei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/08/概率面试题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gjwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gjwei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">概率题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T10:49:11+08:00">
+                2018-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/08/概率面试题/" class="leancloud_visitors" data-flag-title="概率题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概率题"><a href="#概率题" class="headerlink" title="概率题"></a>概率题</h1><ol>
+<li><code>一个桶里面有白球、黑球各100个，现在按下述规则取球：</code> </li>
+</ol>
+<ul>
+<li>i 、每次从桶里面拿出来两个球； </li>
+<li>ii、如果取出的是两个同色的求，就再放入一个黑球； </li>
+<li>iii、如果取出的是两个异色的求，就再放入一个白球。<br>问：最后桶里面只剩下一个黑球的概率是多少？<br>答：<br>动态规划，令f[i,j]表示有i个白球，j个黑球的概率。<br>已知f[100,100] = 1/2, 求f[0,1]。<br>拿到两个白球: f[i-2,j+1] = i/(i+j) <em> (i-1)/(i+j-1) </em> f[i,j]  + f[i-2, j + 1]<br>拿到两个黑球: f[i, j-1] = j/(i+j) <em> (j-1)/(i+j-1) </em> f[i,j] + f[i, j - 1]<br>拿到一黑一白: f[i, j-1] =2 <em> i/(i+j) </em> j/(i+j-1) * f[i,j] + f[i, j - 1]<a id="more"></a></li>
+</ul>
+<ol start="2">
+<li><p><code>10个人出去玩，集合时间有10分钟，每个人都在该时间内到达，概率均匀分布，彼此独立，那么最后一个人最有可能到达的时间是?</code><br>遇到这种想不明白，最好的方法就是枚举。<br>若最后一个人在10分钟到达（概率1/10），其他人也都已经到达了（概率是1），总概率是 1^9 <em> (1/10)<br>若最后一个人在9分钟到达（概率1/10），其他人到达的概率是(9/10)9，总概率是 (9/10)^9 </em> (1/10)<br>依此类推。可见概率最大的是第10分钟。 </p>
+</li>
+<li><p><code>已知随机数生成函数f()，返回0的概率是60%，返回1的概率是40%。根据f()求随机数函数g()，使返回0和1的概率是50%，不能用已有的随机生成库函数。</code><br>调用f()两次即可，会出现4种结果(0,0), (0,1), (1,0), (1,1)，其中出现(0,1), (1,0)的概率是一样的，可以构造出等概率事件，比如出现(0,1)可返回0，出现(1,0)可返回1，如果出现其他两种情况则舍掉重新调用。</p>
+</li>
+<li><p><code>给定rand5()，实现一个方法rand7()。也即，给定一个产生0到4（含）随机数方法，编写一个产生0到6（含）随机数的方法。</code><br>随机数函数的关键是确保产生每一个数的的概率相等。我们可用通过5 * rand5() + rand5()产生[0:24]，舍弃[21:24]，最后除以7取余数，则可得到概率相等的[0:6]的数值。 </p>
+</li>
+<li><p><code>100个人排队，每个人只能看到自己之前的人的帽子的颜色（假设只有黑白两色），每个人都得猜自己帽子的颜色，只能说一次，说错就死掉，别人可以听到之前的人的答案以及是否死掉。请问用什么策略说死掉的人最少。</code><br>假设只有3个人，假设ture = 白，false = 黑，用这个公式x3 = (x1 == x2)，用人话就是1和2的帽子颜色一样的话就说白，不一样的话就说黑。这个策略第一个人死的概率是1/2，剩下的两个都不会死。<br>推广到4个人，也就是x4 = (x3 == (x1 == x2))，照理可以推广到100人。但问题就是人很难判断，只能靠计算机来算。<br>另一个解题方法：“最后一个人看一下前面黑帽子的个数是奇数还是偶数，比如约定奇数说黑，偶数说白。这样前面的人都可以推断出来正确的结果。”</p>
+</li>
+<li><p><code>54张牌，平均分成三堆，大小王在同一堆的概率？</code><br>先平均分三堆，大王在第一堆的概率是1/3, 小王在剩下的53张牌中，有17/53的概率和大王同一堆。依此类推，大王还可能在2,3堆，因此<br>1/3∗17/53∗3=17/53</p>
+</li>
+<li><p><code>买饮料，三个瓶盖可以换一瓶，请问要买100瓶饮料，最少需要买多少瓶？</code><br>答：<br>设要买x瓶。<br>x+x/3&gt;=100<br>对么？小心！x/3瓶如果满3瓶还可以再换的，想象某人堵在小卖部门口狂开瓶。因此应该是<br>x+x/3+x/9+…+x/3n&gt;=100<br>n=log3x<br>x(1−1/3n)/(1−1/3)&gt;=100<br>x(1−1/x)&gt;=200/3<br>x=68<br>不过我返回去算了下, 发现x=68只能买99瓶…毕竟算的时候当x是实数了，因此还是再返回来推一下的靠谱，x=69。</p>
+</li>
+<li><p><code>在半径为1的圆中随机选取一点。</code><br>从[0, 2*pi)随机选取一个角度，再在这个方向的半径上随机选取一个点。但半径上的点不能均匀选取，选取的概率要和离圆心的距离成正比，这样才能保证随机点在圆内是均匀分布的。</p>
+</li>
+<li><p><code>一根木棒，截成三截，组成三角形的概率是多少？</code><br>设第一段截x，第二段截y，第三段1-x-y。<br>考虑所有可能的截法。可能的截法中必须保证三条边都是正数且小于原来边长，则有0&lt;x&lt;1，0&lt;y&lt;1，0&lt;1-x-y&lt;1，画图可知，(x,y)必须在单位正方形的左下角的半个直角三角形里，面积为1/2。<br>然后考虑能形成三角形的截法。首先要满足刚才的三个条件0&lt;x&lt;1，0&lt;y&lt;1，0&lt;1-x-y&lt;1，然后必须符合三角形的边的要求，即两边之和大于第三边，x+y&gt;1-x-y，x+1-x-y&gt;y，y+1-x-y&gt;x，化简即得<br>0&lt;x&lt;1/2，0&lt;y&lt;1/2，1/2&lt;x+y&lt;1<br>画图可知，此时(x,y)必须在边长为1/2的三角形的右上角的半个直角三角形里，面积为1/8。<br>于是最终概率为 (1/8)/(1/2) = 1/4。</p>
+</li>
+<li><p><code>抛一个六面的色子，连续抛直到抛到6为止，问期望的抛的次数是多少</code><br>因为每次抛到6的概率相等，都是1/6，于是期望的次数就是1/(1/6)=6次。</p>
+</li>
+<li><p><code>一个木桶里面有M个白球，每分钟从桶中随机取出一个球涂成红色（无论白或红都涂红）再放回，问将桶中球全部涂红的期望时间是多少？</code><br>通过动态规划来进行求解。<br><img src="./1522804773994.png" alt="Alt text"></p>
+</li>
+<li><p><code>你有一把宝剑。每使用一个宝石，有50%的概率会成功让宝剑升一级，50%的概率会失败。如果宝剑的级数大于等于5的话，那么失败会使得宝剑降1级。如果宝剑的级数小于5的话，失败没有效果。问题是：期望用多少个宝石可以让一把1级的宝剑升到9级？</code><br>反正没有看的太懂，大概过程和上面的过程差不多。</p>
+</li>
+<li><p><code>已知有个randM()的函数，返回1到M随机自然数，怎样利用这个randM()构造randN()，随机1~N。</code><br>当N&lt;M的时候，可以直接得到，将大于N的数去除掉即可。<br>当N&gt;M，构造类似于(randM() - 1) * M + randM()，可以产生1——M^2，然后在M^2中选择N个构造1——N的映射。<br>如果N&gt;&gt;M,可以对上面得到的randM(M^2)继续进行构造<br>思路二：可以通过位操作进行。用已经知道的randM作为一个0，1生成器，生成所求数的最大位数词。然后组成这个数，当生成的数大于N的时候，舍弃重新开始。</p>
+</li>
+<li><p><code>已知一随机发生器，产生0的概率是p，产生1的概率是1-p，现在要你构造一个发生器，使得它产生0和1的概率均为1/2。</code><br>考虑连续产生两个随机数，结果只有四种可能：00、01、10、11，其中产生01和产生10的概率是相等的，均为p*(1-p)，于是可以利用这个概率相等的特性等概率地产生01随机数。<br>比如把01映射为0,10映射为1。于是整个方案就是：<br>产生两个随机数，如果结果是00或11就丢弃重来，如果结果是01则产生0，结果是10则产生1。</p>
+</li>
+<li><p><code>已知一随机发生器，产生的数字的分布不清楚，现在要你构造一个发生器，使得它产生0和1的概率均为1/2。</code><br>和上面类似，可以产生两个数a，b，第一个比第二个大的时候，判断为0，反之，判断为1</p>
+</li>
+<li><p><code>. 已知一随机发生器，产生0的概率是p，产生1的概率是1-p，构造一个发生器，使得它构造1、2、3的概率均为1/3；…。更一般地，构造一个发生器，使得它构造1、2、3、…n的概率均为1/n。</code><br>关键是找到n个出现概率相等的事件。<br>考虑到产生x个随机数，我们希望0和1的组合概率相等。即二者程度必须是偶数。然后为每种组合赋予一个值即可。<br>要求是C(2*x, x) &gt;= n</p>
+</li>
+<li><p><code>给出从n个数中随机选择m个数的方法。n很大，可以认为是亿级别。m可以很小，如接近1；也可以很大，如接近n。</code><br>一个直接的思路是一直重复地随机，直到随机到m个数为止。这个方法有两个弊端：</p>
+</li>
+</ol>
+<ul>
+<li>难以直到后面随机到的一个数是否在前面已经随机过了，因为数据量很大，无法保存在内存中，如果保存到外存中则时间花费太大。</li>
+<li>如果m很大，甚至接近于n，则后面随机到的数字基本上都是前面随机过的，因而需要尝试的随机次数太多。</li>
+<li>一个思路是每个数被选中的概率是m/n，则可以遍历一遍原数据，在遍历每个数字的同时以m/n的概率决定是否要选择当前数字，则当遍历完毕的时候，选择到的数字在平均意义就是m个。这个会随着n的增大而更好地趋近于m，但不能很精确地保证随机到的数字一定是m个。</li>
+<li>以上思路虽然不能满足要求，但我们可以进行改进。刚才我们在遍历每个数字的时候都是以同样的概率m/n决定是否要选择该数字，实际上，在当前遍历数字的前面的数字的结果我们是已经知道了，我们可以根据前面的随机结果动态地调整当前的随机策略，使得最终能够保证随机到的数字一定是m个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">具体的做法是，**遍历第1个数字时有m/n的概率进行选择，如果选择了第1个数字，则第2个数字被选择的概率调整为(m-1)/(n-1)，如果没选择第1个数字，则第2个数字被选择的概率为m/(n-1)。即遍历到第i个数字的时候，如果此时已经选择了k个，则以(m-k)/(n-i+1)的概率决定是否要选择当前的第i个数字。</span><br><span class="line">这样可以保证每次都能够保证在剩下的数字中能选择适当的数使得总体选择的数字是m个。比如，如果前面已经随机了m个，则后面随机的概率就变为0。如果前面一直都没随机到数字，则后面随机到的概率就会接近1。最终得到的结果始终精确地是m个数字。**</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="18">
+<li><p><code>给出从n个数中随机选择1个的方法。注意，n非常大，并且一开始不知道其具体值。数字是一个一个给你的，当给完之后，你必须立刻给出随机的结果。</code><br>答案是要保证每个数字被选取的概率是相等，当第i个数来的时候，如果我们已经保证了前i-1个数每个数被选取的概率都是相等的，那么只要第i个数字被选取的概率是1/i，我们就可以知道所有i个数被选取的概率都是1/i了。所以只需要以1/i的概率决定是否要选取当前的第i个数字即可。<br>于是可以保证对于任意的n，当给完n个数字时，选择每个数字的概率都是相等的，为1/n。</p>
+</li>
+<li><p><code>给出从n个数中随机选择m个的方法。注意，n非常大，并且一开始不知道其具体值。数字是一个一个给你的，当给完之后，你必须立刻给出随机的结果。</code><br>这题是上一题的推广，于是可以仿照着进行。<br>首先前m个数字是必须拿的。问题是当第i（i&gt;m）个数字来的时候，究竟是要丢弃这个数，还是保留这个数？如果要保留这个数的话，则必须得丢弃手中已有的m个数，那是怎么确定丢弃哪个呢？<br>下面是就具体的做法。第i个数到来的时候，以m/i的概率决定是否要选择这个数字。如果选择了这个数字，则随机地替换掉手上m个数字中的一个。<br>如果前i-1个数字的时候保证了每个数字被选取的概率相等，则这样做之后可以保证每个数字被选取的概率也相等，为m/i。</p>
+</li>
+</ol>
+<ul>
+<li>第i个数选择的概率是m/i，因为算法就是这样决定的。</li>
+<li>考虑前i-1个数字中的任意一个，它在第i个数之前被选择的概率是m/(i-1)。在第i个数字的时候，这个数字要被选择的话又两种可能，一是第i个数没有被选中（概率是1-m/i），二是第i个数倍选中了（概率是m/i）但是替换掉的数字不是它（概率是1-1/m），于是这个数在第i个数时仍然被选择的概率是m/(i-1) <em> ((1-m/i) + (m/i </em> (1-1/m))) = m / (i-1) * ((i-1) / i) = m/i。<br>由数学归纳法原理知，对于任意的n，当给完n个数的时候，选择的结果可以保证这n个数中每个被选中的概率都是相等</li>
+</ul>
+<ol start="20">
+<li><p><code>一个三角形， 三个端点上有三只蚂蚁，蚂蚁可以绕任意边走，问蚂蚁不相撞的概率是多少?</code><br>乍一看有点蒙…<br>其实很简单…<br>1.每个蚂蚁在方向的选择上有且只有2种可能，共有3只蚂蚁，所以共有2的3次方种可能<br>2.不相撞有有2种可能，即全为顺时针方向或全为逆时针方向。<br>不相撞概率=不相撞/全部=2/8</p>
+</li>
+<li><p><code>A城一个商人有一头驴子和3000根胡萝卜.要将萝卜拉到1000公里外的B城去卖，只能用驴子驮。已知驴子一次性可驮1000根胡萝卜,但每走一公里要吃掉一根胡萝卜.问商人共可卖出多少胡萝卜?</code><br>这题的问题出在给的条件不充分，可能有两种情况，一种是非理想状态的拉运萝卜，这种情况的话，一个也不能卖出去；第二种为理想状态下的，就是能在每走一公里的时候能够卸货下来，并且还没有其他的外在因素使得萝卜丢失，这样的理想状态下能够运送到B城833个萝卜。计算过程如下：1、因为有3000萝卜，所以消耗掉前面的1000个萝卜的时候，每前进一公里要来回3次消耗3个萝卜，因此第一次前进了X公里，X=1000/3=333余数为1；2、剩下的2001个萝卜在第334公里的时候需要来回3次才能运送完，我们就将这一公里路算在2000个萝卜在第一次运送的时候算在一起，那么第二次运送萝卜只需要来回2次消耗2个萝卜，因此第二次消耗1000个萝卜前进了Y公里，Y=1000/2=500；现在前进了500+333=833公里，剩下167公里后，萝卜也只剩下了1000个，所以就这1000个直接中途不卸货的一次到达B城，消耗167个萝卜，所以最后剩下1000-167=833个萝卜。</p>
+</li>
+<li><p><code>甲乙两个人答对一道题的概率分别为90%和80%，对于一道判断题，他们都选择了“正确”，问这道题正确的概率。请问这题怎么做，谢谢</code><br>有人有以下解法，以下是否正确？<br>题目为真且甲乙都选则正确的概率 / 甲乙都选择正确的概率<br>题目为真且甲乙都选真/(题目真甲乙都选真+题目假甲乙都选真)<br>(0.5<em>0.9</em>0.8)/{(0.5<em>0.9</em>0.8+0.5<em>0.1</em>0.2)}<br>=72/74</p>
+</li>
+<li><p><code>飞机上有100个座位，按顺序从1到100编号。有100个乘客，他们分别拿到了从1号到100号的座位，他们按号码顺序登机并应当对号入座，如果他们发现对应号座位被别人坐了，他会在剩下空的座位随便挑一个坐。现在假如1号乘客疯了 -_-! (其他人没疯)，他会在100个座位中随机坐一个座位。那么第100人正确坐自己座位的概率是多少？</code><br>注意登机是从1到100按顺序的。<br>换个角度，相当于疯会传染，如果某个人的作为被疯子占了，那么他就会去做其他人的位置，当最后的时刻。相当于疯子要么坐上自己的位置，要么坐上了我的位置。二选一。</p>
+</li>
+<li><p><code>两个信封，一封里装的钱是另一封里的两倍，你选了一个打开一看，里面是十块钱，这个时候你可以选择换成另一个，问你该不该换？</code><br>第一印象肯定是换不换无所谓，因为貌似二者不相关。<br>但是随后又会想到，另一个信封有一半可能是五块，一半可能是二十块，期望值会是1/2(5+20) = 12.5，当然应该换。</p>
+</li>
+<li><p><code>三人陪审团，其中两人每人做出正确决定的概率是Ｐ。另一人总是靠扔硬币来决定支持谁。最后由多数票决定结果。另一个审判由一人决定，这个人做出正确决定的概率也是Ｐ。问三人陪审团与一人审判谁有更大概率做出正确决定？</code><br>一样大，都是p</p>
+</li>
+</ol>
+<h2 id="概率面试题"><a href="#概率面试题" class="headerlink" title="概率面试题"></a>概率面试题</h2><ol>
+<li><code>给你一个数组，设计一个既高效又公平的方法随机打乱这个数组</code>（此题和洗牌算法的思想一致）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">def shuffle(nums):</span><br><span class="line">	for i in range(len(nums)):</span><br><span class="line">		j = random.randint(0, i)</span><br><span class="line">		nums[i], nums[j] = nums[j], nums[i]</span><br><span class="line">return</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p><code>有一苹果，两个人抛硬币来决定谁吃这个苹果，先抛到正面者吃。问先抛这吃到苹果的概率是多少？</code><br>给所有的抛硬币操作从1开始编号，显然先手者只可能在奇数（1,3,5,7…）次抛硬币得到苹果，而后手只可能在偶数次（2,4,6,8…）抛硬币得到苹果。设先手者得到苹果的概率为p，第1次抛硬币得到苹果的概率为1/2，在第3次（3,5,7…）以后得到苹果的概率为p/4（这是因为这种只有在第1次和第2次抛硬币都没有抛到正面（概率为1/4=1/2*1/2）的时候才有可能发生，而且此时先手者在此面临和开始相同的局面）。所以可以列出等式p=1/2+p/4，p=2/3。</p>
+</li>
+<li><p><code>一个面试题：快速生成10亿个不重复的18位随机数的算法(从n个数中生成m个不重复的随机数</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line"></span><br><span class="line">def random_choice(n, m):</span><br><span class="line">	count = 0</span><br><span class="line">	for i in range(1, n + 1):</span><br><span class="line">		if count == m:</span><br><span class="line">			break</span><br><span class="line">		t = random.randint(n - i)</span><br><span class="line">		if t &lt; m:</span><br><span class="line">			count += 1</span><br><span class="line">	return</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>你有两个罐子以及50个红色弹球和50个蓝色弹球，随机选出一个罐子然后从里面随机选出一个弹球，怎么给出红色弹球最大的选中机会?</code><br>在你的计划里，得到红球的几率是多少? 题目意思是两个罐子里面放了50红色和50蓝色弹球，然后我任选一个罐子，从中选中一个红球的最大概率，是设计一个两个罐子里怎么放这100球的计划。一个罐子：1个红球另一个罐子：49个红球，50个篮球几率=1/2+(49/99)*(1/2)=74.7%</p>
+</li>
+</ol>
+<ol start="5">
+<li><code>一副扑克牌54张，现分成3等份每份18张，问大小王出现在同一份中的概率是多少？（大意如此）</code><br>不妨记三份为A、B、C份。大小王之一肯定在某一份中，不妨假定在A份中，概率为1/3。然后A份只有17张牌中可能含有另一张王，而B份、C份则各有18张牌可能含有另一张王，因此A份中含有另一张王的概率是17/(17+18+18)=17/53。</li>
+</ol>
+<p>也因此可知，A份中同时含有大小王的概率为1/3 * 17/53。</p>
+<p>题目问的是出现在同一份中的概率，因此所求概率为3<em>(1/3 </em> 17/53)=17/53。</p>
+<ol start="6">
+<li><code>有一对夫妇，先后生了两个孩子，其中一个孩子是女孩，问另一个孩子是男孩的概率是多大？</code></li>
+</ol>
+<p>答案是2/3.两个孩子的性别有以下四种可能：（男男）（男女）（女男）（女女），其中一个是女孩，就排除了（男男），还剩三种情况。其中另一个是男孩的占了两种，2/3.　之所以答案不是1/2是因为女孩到底是第一个生的还是第二个生的是不确定的。</p>
+<ol start="7">
+<li><code>一个国家人们只想要男孩，每个家庭都会一直要孩子，只到他们得到一个男孩。如果生的是女孩，他们就会再生一个。如果生了男孩，就不再生了。那么，这个国家里男女比例如何？</code><br>一个家庭的孩子数量可以为:1,2,3,4,5…..  对应的的男女分布为: “男”,”女男”,”女女男”,”女女女男”,”女女女女男”…  </li>
+</ol>
+<p>对应的概率分布为 1/2, 1/4, 1/8, 1/16, 1/32 。其中女孩的个数分别为 0,1,2,3,4……</p>
+<p>因此 S2=0<em>1/2 + 1</em>1/4 + 2<em>1/8 + 3</em>1/16 + 4*1/32 + ………</p>
+<p>可以按照题目2用级数求，也可以用错位相减法：S2=1/4+2/8+3/16+4/32+…  两边乘以2,得: 2*S2=1/2+2/4+3/8+4/16+5/32+..</p>
+<p>两个式子相减得 S2=1/2+1/4+1/8+1/16+1/32+…=1. 所以期望值都为1，男女比例是一样的。</p>
+<ol start="8">
+<li><p><code>有一个很大很大的输入流，大到没有存储器可以将其存储下来，而且只输入一次，如何从这个输入流中等概率随机取得m个记录</code><br>不知道数据量有多大的问题。<br>蓄水池抽样 或 reservoir sample。假设输入到第n个记录了，以m/n的概率取该数，如果取中则随机替换掉原来取中的m个记录中的一个。初始时，选中前m个记录。</p>
+</li>
+<li><p><code>有一个木桶，里面有M个白球，小明每分钟从桶中随机取出一个球涂成红色（无论白或红都涂红）再放回，问小明将桶中球全部涂红的期望时间是多少？</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">数学期望类的题目，主要是要理解什么是数学期望，数学期望是干什么用的，关于这些问题的解答，大家可以自己去理解，思考或者翻书，我要讲的内容是如何利用这些数学期望的特点。</span><br><span class="line"></span><br><span class="line">现在我们开始解答上面的问题：</span><br><span class="line"></span><br><span class="line">令P[i]代表M个球中已经有i个球是红色后，还需要的时间期望，去将所有球都变成红色。</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">So，给出递归式：</span><br><span class="line">P[i]= (i/M) * P[i] + (1-i/M)* P[i+1] + 1</span><br><span class="line"></span><br><span class="line">我相信大家都能理解这个公式的含义，不过还是解释一下，在P[i]的情况下，我们选一次球，如果是红球，那么概率是i/M，子问题还是P[i]，如果是白球，那么概率是1-i/M，子问题是P[i+1]，注意你当前的选球操作要计算在内，即一次</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">化简如上递归式得：P[i] = P[i+1] + M/(M-i)，显然P[M] = 0;</span><br><span class="line"></span><br><span class="line">所以：</span><br><span class="line"></span><br><span class="line">P[M-1] = P[M] + M/1</span><br><span class="line"></span><br><span class="line">P[M-2] = P[M-1] + M/2</span><br><span class="line"></span><br><span class="line">…</span><br><span class="line"></span><br><span class="line">P[0] = P[1] + M/M</span><br><span class="line"></span><br><span class="line">综上：P[0] = 0 + M/1 + M/2 + … + M/M，至此问题已经解决，不过我希望大家学到的不是这个答案，而是分析这个题目的过程</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/概率/" rel="tag"># 概率</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/07/线性模型/" rel="next" title="线性模型">
+                <i class="fa fa-chevron-left"></i> 线性模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/08/数值计算/" rel="prev" title="deep learning 第四章：数值计算">
+                deep learning 第四章：数值计算 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpeg" alt="gjwei">
+            
+              <p class="site-author-name" itemprop="name">gjwei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/gjwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:gjwei1993@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概率题"><span class="nav-number">1.</span> <span class="nav-text">概率题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概率面试题"><span class="nav-number">1.1.</span> <span class="nav-text">概率面试题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gjwei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("r9j2nTnIAVIUC4MK0RxH4MVB-gzGzoHsz", "03lDaSdBNXVDh3Mjf9C9hzsP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
