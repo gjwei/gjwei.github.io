@@ -310,6 +310,292 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/12/deeplearning笔记-chapter7-深度学习中的正则化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gjwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gjwei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/12/deeplearning笔记-chapter7-深度学习中的正则化/" itemprop="url">deeplearning笔记-chapter7-深度学习中的正则化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T15:50:51+08:00">
+                2018-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/12/deeplearning笔记-chapter7-深度学习中的正则化/" class="leancloud_visitors" data-flag-title="deeplearning笔记-chapter7-深度学习中的正则化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>正则化可以定义为：对学习算法进行修改，目的是减少泛化误差而不是训练误差。</p>
+<h2 id="参数范数惩罚"><a href="#参数范数惩罚" class="headerlink" title="参数范数惩罚"></a>参数范数惩罚</h2><p><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1fr8lxp52lwj209u01swec.jpg" alt=""><br>我们通常是只对权重进行惩罚，而不对偏置进行惩罚。精确拟合偏置所需要的数据要少于拟合权重的数据。</p>
+<p>正则化偏置可能会导致明显的欠拟合情况。</p>
+<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><p>权重衰减<br><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1fr8m08otq5j20ar01y0sl.jpg" alt=""><br>权重衰减过程中，每个权值的衰减方向是指向0的方向，而步长是和w大小成正比，所以，权值会朝着0衰减，但是步长会越来越慢，最终达到0的附近。</p>
+<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><p><img src="https://ws1.sinaimg.cn/large/9244e6f1gy1fr8m3o32n3j20lh032t8x.jpg" alt=""><br>L1正则化产生系数解。<br>可以用作特征选择。</p>
+<h2 id="作为约束的范数惩罚"><a href="#作为约束的范数惩罚" class="headerlink" title="作为约束的范数惩罚"></a>作为约束的范数惩罚</h2><p>通过直接给模型的参数设置越是来进行正则化。</p>
+<h2 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h2><ul>
+<li>图像进行翻转，平移等</li>
+<li>为输入层注入噪音</li>
+</ul>
+<h2 id="噪音鲁棒性"><a href="#噪音鲁棒性" class="headerlink" title="噪音鲁棒性"></a>噪音鲁棒性</h2><p>一种方法是添加方差极小的噪音，这等价于对权重事实范数惩罚。</p>
+<p>另一种使用方法是将噪音增加到权重。主要是用于RNN网络中。</p>
+<h3 id="对输入label添加噪音"><a href="#对输入label添加噪音" class="headerlink" title="对输入label添加噪音"></a>对输入label添加噪音</h3><p>大多数数据集的label都会有一定的错误。错误的label将会误导系统，所以，可以通过对label增加噪音降低错误label的影响。</p>
+<p><strong>标签平滑</strong>的方法：将分类目标中的0和1分别替换成$\frac{\theta}{k - 1}$和$1 - \theta$</p>
+<h2 id="多任务学习方法"><a href="#多任务学习方法" class="headerlink" title="多任务学习方法"></a>多任务学习方法</h2><h2 id="Early-Stop"><a href="#Early-Stop" class="headerlink" title="Early Stop"></a>Early Stop</h2><p>提前终止等价于L2正则化</p>
+<h2 id="参数绑定和参数共享"><a href="#参数绑定和参数共享" class="headerlink" title="参数绑定和参数共享"></a>参数绑定和参数共享</h2><h2 id="Bagging和其他集成方法"><a href="#Bagging和其他集成方法" class="headerlink" title="Bagging和其他集成方法"></a>Bagging和其他集成方法</h2><p>通过结合几个模型降低泛化误差。一般采用模型平均的方法。<br>Bagging方法的原理是，通过平均多个高方差低偏差的模型的结果，可以显著的降低总和结果的方差，而不会改变模型的偏差。</p>
+<p>这是方差的公式决定的。</p>
+<h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><p>提供一种廉价的bagging集成近似，能够训练和评估指数级数量的神经网络</p>
+<h2 id="对抗训练"><a href="#对抗训练" class="headerlink" title="对抗训练"></a>对抗训练</h2><p>对抗样本产生的原因是过度线性。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/12/deeplearning笔记-chapter6-前馈网络/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gjwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gjwei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/12/deeplearning笔记-chapter6-前馈网络/" itemprop="url">deeplearning笔记-chapter6-前馈网络</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T10:21:01+08:00">
+                2018-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/12/deeplearning笔记-chapter6-前馈网络/" class="leancloud_visitors" data-flag-title="deeplearning笔记-chapter6-前馈网络">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="第六章：深度前馈网络"><a href="#第六章：深度前馈网络" class="headerlink" title="第六章：深度前馈网络"></a>第六章：深度前馈网络</h1><p>也叫做多层感知器，是最典型的深度网络。</p>
+<p>我们先从线性模型开始。</p>
+<p>线性模型有着明显的缺陷，他的模型能力被限制在线性函数中，无法解释任何两个输入变量间的相互作用。<br>为了拓展线性模型表示非线性函数，可以讲输入x进行非线性的变化$\phi (x)$<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/12/deeplearning笔记-chapter6-前馈网络/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/11/LSTM/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1386,281 +1672,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/07/最大似然估计/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="gjwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="gjwei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/07/最大似然估计/" itemprop="url">最大似然估计</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T20:23:53+08:00">
-                2018-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/05/07/最大似然估计/" class="leancloud_visitors" data-flag-title="最大似然估计">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h1><p>最大似然估计就是找到一组参数，使得“事情发生的概率最大”</p>
-<p>最大似然估计可以转化成对数形式的最大似然估计。而对数似然估计函数其实就是交叉熵！<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/07/最大似然估计/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2018/05/07/概率论和数理统计/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="gjwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="gjwei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/07/概率论和数理统计/" itemprop="url">概率论和数理统计</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T19:21:42+08:00">
-                2018-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/05/07/概率论和数理统计/" class="leancloud_visitors" data-flag-title="概率论和数理统计">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本节内容会摘录下自己想要了解的概率论知识。</p>
-<h1 id="概率事件和概率"><a href="#概率事件和概率" class="headerlink" title="概率事件和概率"></a>概率事件和概率</h1><ol>
-<li>古典型概率</li>
-</ol>
-<p>古典型概率的基本事件为n，事件A包含k个基本事件，则A的概率定义为：<br>$$ P(A) = \frac{k}{n} $$<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/07/概率论和数理统计/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1713,7 +1724,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

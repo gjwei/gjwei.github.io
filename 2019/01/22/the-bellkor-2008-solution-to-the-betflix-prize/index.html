@@ -97,7 +97,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Recommender System,">
 
 
 
@@ -108,13 +108,27 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="gjwei">
-<meta property="og:url" content="http://gjwei.github.io/archives/2018/page/4/index.html">
+<meta name="description" content="介绍主要介绍论文结构 新方法因子模型SVD Asymmetric-SVD SVD++ 这些模型的学习方法是使用SGD，参数$\mu$是指训练集中的平均打分值。 时间效应发现了三种强时间效应  电影偏差：电影会随着时间发生流行度变化 用户偏差：用户会随着时间改变他们的打分基线 用户偏好：用户的偏好会随着时间发生变化  之后，开始介绍下如何在模型中使用这些时间效应以SVD++为例：Here，我们">
+<meta name="keywords" content="Recommender System">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The BellKor 2008 Solution to the Netflix Prize">
+<meta property="og:url" content="http://gjwei.github.io/2019/01/22/the-bellkor-2008-solution-to-the-betflix-prize/index.html">
 <meta property="og:site_name" content="gjwei">
+<meta property="og:description" content="介绍主要介绍论文结构 新方法因子模型SVD Asymmetric-SVD SVD++ 这些模型的学习方法是使用SGD，参数$\mu$是指训练集中的平均打分值。 时间效应发现了三种强时间效应  电影偏差：电影会随着时间发生流行度变化 用户偏差：用户会随着时间改变他们的打分基线 用户偏好：用户的偏好会随着时间发生变化  之后，开始介绍下如何在模型中使用这些时间效应以SVD++为例：Here，我们">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122140015.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122140641.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122140713.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122141612.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150408.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150500.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150511.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150558.png">
+<meta property="og:updated_time" content="2019-01-22T09:07:53.462Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gjwei">
+<meta name="twitter:title" content="The BellKor 2008 Solution to the Netflix Prize">
+<meta name="twitter:description" content="介绍主要介绍论文结构 新方法因子模型SVD Asymmetric-SVD SVD++ 这些模型的学习方法是使用SGD，参数$\mu$是指训练集中的平均打分值。 时间效应发现了三种强时间效应  电影偏差：电影会随着时间发生流行度变化 用户偏差：用户会随着时间改变他们的打分基线 用户偏好：用户的偏好会随着时间发生变化  之后，开始介绍下如何在模型中使用这些时间效应以SVD++为例：Here，我们">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122140015.png">
 
 
 
@@ -144,13 +158,13 @@
 
 
 
-  <link rel="canonical" href="http://gjwei.github.io/archives/2018/page/4/">
+  <link rel="canonical" href="http://gjwei.github.io/2019/01/22/the-bellkor-2008-solution-to-the-betflix-prize/">
 
 
 
 
 
-  <title>归档 | gjwei</title>
+  <title>The BellKor 2008 Solution to the Netflix Prize | gjwei</title>
   
 
 
@@ -169,7 +183,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -295,390 +309,200 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gjwei.github.io/2019/01/22/the-bellkor-2008-solution-to-the-betflix-prize/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gjwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gjwei">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">The BellKor 2008 Solution to the Netflix Prize</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T13:56:49+08:00">
+                2019-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        好! 目前共计 55 篇日志。 继续努力。
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
+             <span id="/2019/01/22/the-bellkor-2008-solution-to-the-betflix-prize/" class="leancloud_visitors" data-flag-title="The BellKor 2008 Solution to the Netflix Prize">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/09/条件随机场/" itemprop="url">
-              
-                <span itemprop="name">条件随机场（转载）</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-09T20:09:05+08:00" content="2018-05-09">
-          05-09
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/09/博士论文：自然语言处理中序列标注模型的研究-计峰/" itemprop="url">
-              
-                <span itemprop="name">序列标注模型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-09T19:19:29+08:00" content="2018-05-09">
-          05-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/08/deeplearning笔记-chapter5/" itemprop="url">
-              
-                <span itemprop="name">deeplearning笔记-chapter5</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-08T21:35:13+08:00" content="2018-05-08">
-          05-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/08/数值计算/" itemprop="url">
-              
-                <span itemprop="name">deep learning 第四章：数值计算</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-08T20:50:58+08:00" content="2018-05-08">
-          05-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>主要介绍论文结构</p>
+<h1 id="新方法"><a href="#新方法" class="headerlink" title="新方法"></a>新方法</h1><h2 id="因子模型"><a href="#因子模型" class="headerlink" title="因子模型"></a>因子模型</h2><h3 id="SVD"><a href="#SVD" class="headerlink" title="SVD"></a>SVD</h3><p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122140015.png" alt=""></p>
+<h3 id="Asymmetric-SVD"><a href="#Asymmetric-SVD" class="headerlink" title="Asymmetric-SVD"></a>Asymmetric-SVD</h3><p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122140641.png" alt=""></p>
+<h3 id="SVD-1"><a href="#SVD-1" class="headerlink" title="SVD++"></a>SVD++</h3><p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122140713.png" alt=""></p>
+<p>这些模型的学习方法是使用SGD，参数$\mu$是指训练集中的平均打分值。</p>
+<h2 id="时间效应"><a href="#时间效应" class="headerlink" title="时间效应"></a>时间效应</h2><p>发现了三种强时间效应</p>
+<ol>
+<li>电影偏差：电影会随着时间发生流行度变化</li>
+<li>用户偏差：用户会随着时间改变他们的打分基线</li>
+<li>用户偏好：用户的偏好会随着时间发生变化</li>
+</ol>
+<p>之后，开始介绍下如何在模型中使用这些时间效应<br>以SVD++为例：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122141612.png" alt=""><br>Here，我们预测随着时间t的打分值r。请注意，相关的参数现在构造为和时间相关的函数。这些偏差是同时学习的。<br>时间偏差效应更容易捕捉到，因为我们不需要最精细的细粒度。<br>对于item的时间效应，比较容易捕获到：<br>作者将训练集时间切分了30份，每一份作为一个bin。同一个电影在不同bin具有不同的结果。<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150408.png" alt=""><br>对于用户层面的时间效应：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150500.png" alt=""><br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150511.png" alt=""><br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150558.png" alt=""></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/08/概率面试题/" itemprop="url">
-              
-                <span itemprop="name">概率题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-08T10:49:11+08:00" content="2018-05-08">
-          05-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/07/线性模型/" itemprop="url">
-              
-                <span itemprop="name">线性模型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-07T21:48:28+08:00" content="2018-05-07">
-          05-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/07/最大似然估计/" itemprop="url">
-              
-                <span itemprop="name">最大似然估计</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-07T20:23:53+08:00" content="2018-05-07">
-          05-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/07/概率论和数理统计/" itemprop="url">
-              
-                <span itemprop="name">概率论和数理统计</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-07T19:21:42+08:00" content="2018-05-07">
-          05-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/07/deeplearning笔记-chapter3/" itemprop="url">
-              
-                <span itemprop="name">deeplearning笔记-chapter3</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-07T17:26:24+08:00" content="2018-05-07">
-          05-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/05/05/位运算/" itemprop="url">
-              
-                <span itemprop="name">位运算</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-05-05T19:55:26+08:00" content="2018-05-05">
-          05-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Recommender-System/" rel="tag"># Recommender System</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/22/the-wistom-of-the-few/" rel="next" title="the-wistom-of-the-few">
+                <i class="fa fa-chevron-left"></i> the-wistom-of-the-few
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2018/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2018/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2018/page/5/">5</a><a class="extend next" rel="next" href="/archives/2018/page/5/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -686,6 +510,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -706,8 +534,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -776,6 +613,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新方法"><span class="nav-number">2.</span> <span class="nav-text">新方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#因子模型"><span class="nav-number">2.1.</span> <span class="nav-text">因子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD"><span class="nav-number">2.1.1.</span> <span class="nav-text">SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Asymmetric-SVD"><span class="nav-number">2.1.2.</span> <span class="nav-text">Asymmetric-SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">SVD++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间效应"><span class="nav-number">2.2.</span> <span class="nav-text">时间效应</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -929,6 +782,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
