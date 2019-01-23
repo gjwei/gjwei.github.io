@@ -404,7 +404,7 @@
 <li>用户偏好：用户的偏好会随着时间发生变化</li>
 </ol>
 <p>之后，开始介绍下如何在模型中使用这些时间效应<br>以SVD++为例：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122141612.png" alt=""><br>Here，我们预测随着时间t的打分值r。请注意，相关的参数现在构造为和时间相关的函数。这些偏差是同时学习的。<br>时间偏差效应更容易捕捉到，因为我们不需要最精细的细粒度。<br>对于item的时间效应，比较容易捕获到：<br>作者将训练集时间切分了30份，每一份作为一个bin。同一个电影在不同bin具有不同的结果。<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150408.png" alt=""><br>对于用户层面的时间效应：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150500.png" alt=""><br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150511.png" alt=""><br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150558.png" alt=""></p>
-
+<h2 id="Neighborhood-Models"><a href="#Neighborhood-Models" class="headerlink" title="Neighborhood Models"></a>Neighborhood Models</h2>
           
         
       
