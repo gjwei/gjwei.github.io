@@ -124,7 +124,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150500.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150511.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190122150558.png">
-<meta property="og:updated_time" content="2019-01-23T02:52:32.834Z">
+<meta property="og:updated_time" content="2019-01-23T11:02:01.292Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The BellKor 2008 Solution to the Netflix Prize">
 <meta name="twitter:description" content="介绍主要介绍论文结构 新方法因子模型SVD Asymmetric-SVD SVD++ 这些模型的学习方法是使用SGD，参数$\mu$是指训练集中的平均打分值。 时间效应发现了三种强时间效应  电影偏差：电影会随着时间发生流行度变化 用户偏差：用户会随着时间改变他们的打分基线 用户偏好：用户的偏好会随着时间发生变化  之后，开始介绍下如何在模型中使用这些时间效应以SVD++为例：Here，我们">
@@ -418,7 +418,7 @@
 <li>用户偏好：用户的偏好会随着时间发生变化</li>
 </ol>
 <p>之后，开始介绍下如何在模型中使用这些时间效应<br>以SVD++为例：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122141612.png" alt=""><br>Here，我们预测随着时间t的打分值r。请注意，相关的参数现在构造为和时间相关的函数。这些偏差是同时学习的。<br>时间偏差效应更容易捕捉到，因为我们不需要最精细的细粒度。<br>对于item的时间效应，比较容易捕获到：<br>作者将训练集时间切分了30份，每一份作为一个bin。同一个电影在不同bin具有不同的结果。<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150408.png" alt=""><br>对于用户层面的时间效应：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150500.png" alt=""><br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150511.png" alt=""><br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190122150558.png" alt=""></p>
-<h2 id="Neighborhood-Models"><a href="#Neighborhood-Models" class="headerlink" title="Neighborhood Models"></a>Neighborhood Models</h2>
+
       
     </div>
     
@@ -457,6 +457,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/23/leaning-to-rank-for-IR/" rel="prev" title="leaning-to-rank-for-IR">
+                leaning-to-rank-for-IR <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -561,7 +565,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -574,7 +578,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -623,7 +627,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新方法"><span class="nav-number">2.</span> <span class="nav-text">新方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#因子模型"><span class="nav-number">2.1.</span> <span class="nav-text">因子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD"><span class="nav-number">2.1.1.</span> <span class="nav-text">SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Asymmetric-SVD"><span class="nav-number">2.1.2.</span> <span class="nav-text">Asymmetric-SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">SVD++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间效应"><span class="nav-number">2.2.</span> <span class="nav-text">时间效应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neighborhood-Models"><span class="nav-number">2.3.</span> <span class="nav-text">Neighborhood Models</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新方法"><span class="nav-number">2.</span> <span class="nav-text">新方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#因子模型"><span class="nav-number">2.1.</span> <span class="nav-text">因子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD"><span class="nav-number">2.1.1.</span> <span class="nav-text">SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Asymmetric-SVD"><span class="nav-number">2.1.2.</span> <span class="nav-text">Asymmetric-SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">SVD++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间效应"><span class="nav-number">2.2.</span> <span class="nav-text">时间效应</span></a></li></ol></li></ol></div>
             
 
           </div>
