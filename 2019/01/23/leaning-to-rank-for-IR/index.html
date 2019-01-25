@@ -127,7 +127,18 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190124170122.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190124170444.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190124171041.png">
-<meta property="og:updated_time" content="2019-01-24T09:19:41.189Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190124201042.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190124202318.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190125123408.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190125123701.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190125124943.png">
+<meta property="og:image" content="http://gjwei.github.io/Users/gjwei/Library/Application%20Support/typora-user-images/image-20190125144519164.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190125144758.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190125145158.png">
+<meta property="og:image" content="http://gjwei.github.io/Users/gjwei/Library/Application%20Support/typora-user-images/image-20190125145407636.png">
+<meta property="og:image" content="http://gjwei.github.io/Users/gjwei/Library/Application%20Support/typora-user-images/image-20190125152124659.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/gjwei/images/master/20190125153246.png">
+<meta property="og:updated_time" content="2019-01-25T08:50:20.844Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leaning-to-rank-for-IR">
 <meta name="twitter:description" content="Learning to Rank for Information Retrievalhttps://www.cda.cn/uploadfile/image/20151220/20151220115436_46293.pdf 目标：本周内读完前11页的内容Chapter 1 Overiew本章主要是介绍l2r，首先以文档搜索为例介绍排名问题，然后，回顾传统方法，提出广泛使用的评估方法，之后给出机">
@@ -449,7 +460,96 @@
 <li>所有评价方法都是计算在query level的。</li>
 <li>都是基于位置进行度量的。这些方法通常是不可微的，所以优化起来很麻烦。</li>
 </ol>
-<h2 id="Learning-to-rank"><a href="#Learning-to-rank" class="headerlink" title="Learning to rank"></a>Learning to rank</h2>
+<h2 id="Learning-to-rank"><a href="#Learning-to-rank" class="headerlink" title="Learning to rank"></a>Learning to rank</h2><h3 id="Machine-Learning-Framework"><a href="#Machine-Learning-Framework" class="headerlink" title="Machine Learning Framework"></a>Machine Learning Framework</h3><p>许多机器学习研究中，一下几个关键组成部分：</p>
+<ol>
+<li>输入空间。通常，对象是由特征向量组成，根据不同的应用进行提取。</li>
+<li>输出空间，包含了针对输入对象的学习目标。机器学习的输出空间有两个相关但是不同的定义。首先是任务的输出空间，她高度依赖于应用的场景。第二个是让学习过程更容易的输出空间，这个可能和任务的输出不同。例如，使用回归方法解决分类任务的时候。</li>
+<li>假设空间。定义了输入空间到输出空间的函数类。</li>
+<li>为了优化参数，通常使用训练集。损失函数测量模型输出和真实标签的一致程度。利用损失函数，可以在训练集上定义经验损失，通过经验损失最小化学习最优假设。<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190124201042.png" alt=""><h3 id="Learning-to-rank定义"><a href="#Learning-to-rank定义" class="headerlink" title="Learning to rank定义"></a>Learning to rank定义</h3>我们定义使用机器学习完成排序任务的方法为learning-to-rank方法。<br>多数的算法都是通过监督学习优化query-documnet对的特征。我们称具有以下两种属性的方法为leanring-to-rank方法</li>
+<li>Feature Based。<br>基于特征意味着所有的文档都是用向量表示。学习排名的典型特征包括文档中查询术语的频率，BM25模型和PageRank模型的输出，甚至本文档与其他文档之间的关系。</li>
+<li>判别训练<br>判别训练是指leanring to rank有自己的输入空间，输出空间，假设空间和损失函数。<br>判别式训练事是从训练数据中自动学习的过程，这个对于真实搜索引擎是十分重要的，因为搜索引擎每天都会接受大量用户反馈和使用log，自动学习并不断改进排名机制是非常重要的。</li>
+</ol>
+<h3 id="Learning-to-Rank-Framework"><a href="#Learning-to-Rank-Framework" class="headerlink" title="Learning-to-Rank Framework"></a>Learning-to-Rank Framework</h3><p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190124202318.png" alt=""></p>
+<p>排名算法分为三种：PointWise，pairwise，listwise<br>不同的方法，定义不同的输入和输出空间，使用不同的假设函数以及不同的损失函数。</p>
+<h2 id="Pointwise方法"><a href="#Pointwise方法" class="headerlink" title="Pointwise方法"></a>Pointwise方法</h2><p>输入空间是包含单个文档的特征向量。<br>输出空间是每个文档的相关度，可以根据相关程度，转换为不同的标签。ground truth label表示正确的标注。</p>
+<ul>
+<li>如果判断是直接通过相关程度$l_j$给出，那么文档的标签就可以定义为$y_j=l_j$</li>
+<li>如果判断是给定了一个成对的偏好$l_{uv}$，则可以通过计算击败其他文档的频率来得到文档的正确标签。</li>
+<li>如果判断结果是给定了一个总顺序$\pi_l$。则可以通过使用映射函数获得真是标签。例如，文档在$\pi_l$的位置可以当作是真实标签。</li>
+</ul>
+<p>假设空间包含了将文档的特征向量作为输入并预测文档的相关度的函数，我们称之为<strong>评分函数</strong>。基于评分函数，我们可以对文档进行排序生产最终的排序列表。</p>
+<p>损失函数检查了每个文档的真实标签预测准确度，在不同的pointwise算法中，排序是作为一个回归，分类模型来做的，因此相应的损失函数也可以当作该算法的损失函数</p>
+<p>需要注意的是，<strong>逐点方法</strong>不考虑文档之间的相互依赖性，因此文档在最终的排序结果的位置对于其损失函数是不可见的，该方法没有利用某些文档实际上与同一个查询相关联的事实。这种发发有其局限性。</p>
+<h3 id="Pairwise方法"><a href="#Pairwise方法" class="headerlink" title="Pairwise方法"></a>Pairwise方法</h3><p>输入空间是成对的文档，都表示为特征向量。<br>输出空间也是包含了成对的属性（我们从{+1,-1}中取值）。根据成对偏好，我们可以将不同类型的判断转化为标签。</p>
+<ul>
+<li>如果相关程度定义为$l_j$，那么$(x_u,x_v)$成对标签就可以定义为$y_{u,v}=2*I_{l_u&gt;l_v}-1$</li>
+<li>如果相关程度是直接给定的偏好，就直接设定$y_{u,v}=l_{u,v}$</li>
+<li>如果给定的是总的顺序$\pi_l$，定义$y_{u,v}=2*I_{\pi_l(u)&lt;\pi_l(v)}-1$</li>
+</ul>
+<p>假设空间包含了双变量函数h，他将一对文档作为输入并输出它们的相对顺序。为了简单，我们使用评分函数f定义，即：$h（x_u，x_v）= 2·I {f（x_u）&gt; f（x_v）}  -  1$。</p>
+<p>损失函数是衡量$h(x_u,x_v)$和真实标签$y_{u,v}$。</p>
+<p>成对方法使用的损失函数仅仅考虑了两个文档之间的相对顺序。然而，仅仅查看一对文档，很难得出最终的列表的位置。考虑到信息检索中都是使用query级别和位置，我们可以看到这种方法和信息检索的排序之间的差别。</p>
+<h4 id="Listwise方法"><a href="#Listwise方法" class="headerlink" title="Listwise方法"></a>Listwise方法</h4><p>输入空间是一个queyr对应的相关联的文档集合,如$x={x_j}_{j=1}^m$<br>输出空间是文档的排序列表。不同的判断发过誓可以转化为排序列表的标签。</p>
+<ul>
+<li>对于给定了相关度的判别，按照相关度的大小排序得到一个列表作为真实标签。</li>
+<li>如果给定的是pairwise的偏好，同样定义一个满足所有pairwise偏好的列表座位真实标签。</li>
+<li>给定一个总的列表，直接定义标签为$\pi_y=\pi_l$</li>
+</ul>
+<p>对于列表方法，学习过程是为了让输出空间与任务的输出完全相同。优化过程更直接。</p>
+<p>假设空间包含了多变量的函数h，会对一个文档集进行处理并预测他们的序列。假设函数h通常由评分函数f来实现，例如$h(x) = sort \odot f(x)$</p>
+<p>Listwise方法的损失函数通常有两种，一种是和评价方法有关（度量特定损失函数），另外一种无关（非度量特定损失函数）。我们主要参考一下标准来将listwise方法和其他两种方法区分：</p>
+<ul>
+<li>列表损失函数是根据一个query以及对应的所有训练文档定义的</li>
+<li>liswise损失函数不能完全分解为单个文档或者文档对的求和</li>
+<li>强调排序列表的概念，并且最终的排序结果的文档位置在损失函数中是可见的。</li>
+</ul>
+<p>总结表：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190125123408.png" alt=""></p>
+<p>文章使用的符号：<br><img src="https://raw.githubusercontent.com/gjwei/images/master/20190125123701.png" alt=""></p>
+<h1 id="Chapter2-The-Pointwise方法"><a href="#Chapter2-The-Pointwise方法" class="headerlink" title="Chapter2 The Pointwise方法"></a>Chapter2 The Pointwise方法</h1><p>本章讨论了基于回归算法，基于分类的算法和基于序数的肃反啊，然后讨论他们的优缺点。<br>对于基于回归的算法，输出空间包括实数值相关分数。对于分类的算法=，输出空间包含了无序的类别，对于基于序数的算法，输出空间输出有序的类别。</p>
+<h2 id="Regression-Based-Algorithms"><a href="#Regression-Based-Algorithms" class="headerlink" title="Regression-Based Algorithms"></a>Regression-Based Algorithms</h2><p>排序问题被当作一个回归问题。</p>
+<h3 id="Subset-Ranking-with-Regression"><a href="#Subset-Ranking-with-Regression" class="headerlink" title="Subset Ranking with Regression"></a>Subset Ranking with Regression</h3><p>给定了 query q对应的文档集$x={x_j}_{j=1}^m$,真实标签 $y={y_j}_{j=1}^m$. 打分函数f用来排序这些文档。损失函数定义为：</p>
+<p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190125124943.png" alt=""></p>
+<p>只有当评分函数 能够准确输出时候，没有损失，否则就会有二次的损失。对于相关文档，只有当打分函数准确输出为1时候，损失为0，否则如果打分为2，看起来是对这个文档具有更强的相关预测，也会有损失。所以，某种意义上，这样的损失函数不合理。</p>
+<p>作为一种拓展，有提出一种加权回归模型。权重有助于模型更集中雨相关文档的回归错误。另外，还对回归损失增加了正则化项，减少过拟合风险。</p>
+<p>平方损失的理论是基于NDCG的排名误差的理论上限，然而根据以上的讨论，即使有较大的损失，对应的排序结果可能也是最优的。我们可以认为平方损失是基于NDCG排名错误的松散约束。</p>
+<h2 id="Classiﬁcation-Based-Algorithms"><a href="#Classiﬁcation-Based-Algorithms" class="headerlink" title="Classiﬁcation-Based Algorithms"></a>Classiﬁcation-Based Algorithms</h2><h4 id="二元分类"><a href="#二元分类" class="headerlink" title="二元分类"></a>二元分类</h4><h5 id="基于SVM的方法"><a href="#基于SVM的方法" class="headerlink" title="基于SVM的方法"></a>基于SVM的方法</h5><p>假设文档对应的标签y为1表示相关，-1表示不想关</p>
+<p><img src="/Users/gjwei/Library/Application Support/typora-user-images/image-20190125144519164.png" alt="image-20190125144519164"></p>
+<p>其实就是1以文档的特征向量作为输入，使用SVM做二元分类判断该文档是否和query匹配。</p>
+<h5 id="Logistic-Regression-Based-Method"><a href="#Logistic-Regression-Based-Method" class="headerlink" title="Logistic Regression-Based Method"></a>Logistic Regression-Based Method</h5><p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190125144758.png" alt=""></p>
+<h3 id="Multi-class-Classiﬁcation-for-Ranking"><a href="#Multi-class-Classiﬁcation-for-Ranking" class="headerlink" title="Multi-class Classiﬁcation for Ranking"></a>Multi-class Classiﬁcation for Ranking</h3><h4 id="Boosting-Tree-Based-Method"><a href="#Boosting-Tree-Based-Method" class="headerlink" title="Boosting Tree-Based Method"></a>Boosting Tree-Based Method</h4><p>给定了一个文档集合 $x={x_j}^m_{j=1}$.对应的相关度为 $y={y_j}_{j=1}^m$. 假设又一个多元分类器，预测文档对应的相关度。</p>
+<p>然后，用于学习分类器的损失函数是定义为0-1分类错误的替代函数：</p>
+<p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190125145158.png" alt=""></p>
+<p>在增强树算法，我们使用以下代理损失函数：</p>
+<p><img src="/Users/gjwei/Library/Application Support/typora-user-images/image-20190125145407636.png" alt="image-20190125145407636"></p>
+<h4 id="Association-Rule-Mining-Based-Method-基于关联规则挖掘的方法"><a href="#Association-Rule-Mining-Based-Method-基于关联规则挖掘的方法" class="headerlink" title="Association Rule Mining-Based Method 基于关联规则挖掘的方法"></a>Association Rule Mining-Based Method 基于关联规则挖掘的方法</h4><p>从训练数据中发现文档归属于某一类的特征。</p>
+<h3 id="基于序数回归的算法"><a href="#基于序数回归的算法" class="headerlink" title="基于序数回归的算法"></a>基于序数回归的算法</h3><p>此时，输出空间包含的是有序类别。</p>
+<p>通常是找到一个打分函数，然后用一系列阈值对得分进行分割，得到有序类别。采用 PRanking、基于 margin 的方法都可以。</p>
+<h6 id="Perceptron-Based-Ranking-PRanking"><a href="#Perceptron-Based-Ranking-PRanking" class="headerlink" title="Perceptron-Based Ranking (PRanking)"></a>Perceptron-Based Ranking (PRanking)</h6><p>Pranking的目的是在投影文档之后找到参数向量定义的方向，在文档上可以容易使用阈值将文档区分为不同的有序类别。</p>
+<h5 id="Ranking-with-Large-Margin-Principles"><a href="#Ranking-with-Large-Margin-Principles" class="headerlink" title="Ranking with Large Margin Principles"></a>Ranking with Large Margin Principles</h5><p>主要是使用SVM技术学习模型参数和阈值b</p>
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2><h3 id="与相关反馈的关系"><a href="#与相关反馈的关系" class="headerlink" title="与相关反馈的关系"></a>与相关反馈的关系</h3><p>学习排名的逐点方法，特别是基于分类的算法，与相关反馈算法有很强的相关性</p>
+<p>相关反馈算法在信息检索中有重要作用。基本思想是从显示，隐式或者盲目的反馈中学习以更新原始的query，新的query用于检索得到一组新文档，通过迭代式执行这个操作，我们可以使query更接近于最优query，从而提高检索性能。</p>
+<p>如Rocchio算法：</p>
+<p><img src="/Users/gjwei/Library/Application Support/typora-user-images/image-20190125152124659.png" alt="image-20190125152124659"></p>
+<p>所以，我们相当于将query vector看作是一个模型的参数。</p>
+<p>这种方法和learning 2 rank方法的区别在于；</p>
+<ol>
+<li>该算法空间是VSM算法空间，query和document都表示为向量，他们之间的内积当作是相关程度。与此不同的是，l2r算法中，特征空间是从每一个query-document对中抽取得到的。</li>
+<li>该算法从反馈中学习模型的参数，然后去对和相同query的文档进行新的排序。l2r则是会对未知的query进行排序验证</li>
+<li>该算法的模型参数w实际上具有物理意义，即是更新的查询向量。而l2r则没有这个含义，并且仅对应于每个特征对于排名任务的重要性。</li>
+<li>算法的目的是更新query以获得更好的结果，但是不学习最佳的排名。</li>
+</ol>
+<h3 id="Pointwise算法问题"><a href="#Pointwise算法问题" class="headerlink" title="Pointwise算法问题"></a>Pointwise算法问题</h3><ol>
+<li><p>pointwise 类方法并没有考虑同一个 query 对应的 docs 间的内部依赖性。一方面，导致输入空间内的样本不是 IID 的，违反了 ML 的基本假设，另一方面，没有充分利用这种样本间的结构性。其次，当不同 query 对应不同数量的 docs 时，整体 loss 将会被对应 docs 数量大的 query 组所支配，前面说过应该每组 query 都是等价的。</p>
+</li>
+<li><p>ranking 追求的是排序结果，并不要求精确打分，只要有相对打分即可。</p>
+</li>
+<li>损失函数也没有 model 到预测排序中的位置信息。因此，损失函数可能无意的过多强调那些不重要的 docs，即那些排序在后面对用户体验影响小的 doc。</li>
+</ol>
+<h3 id="改进方法"><a href="#改进方法" class="headerlink" title="改进方法"></a>改进方法</h3><p>RankCosine介绍了一种<strong>query-level normalization factor</strong>，定义的损失函数是基于query q的得分函数f和真实标签的得分向量的cosine相似度。</p>
+<p><img src="https://raw.githubusercontent.com/gjwei/images/master/20190125153246.png" alt=""></p>
+<h1 id="Chapter-3-The-PairWise-方法"><a href="#Chapter-3-The-PairWise-方法" class="headerlink" title="Chapter 3 The PairWise 方法"></a>Chapter 3 The PairWise 方法</h1><p>Pairwise方法不关注与每个文档的相关程度，它只关心与两个文档之间的相对顺序，从这个意义讲，它更接近于“排名”的概念。</p>
+<p>在成对方法汇总，排名通常被简化为文档对的分类，即，确定一对文档中哪个文档是优选的。也就是，学习的目标是最小化错误分类文档的数量。</p>
+<h2 id="示例算法"><a href="#示例算法" class="headerlink" title="示例算法"></a>示例算法</h2>
       
     </div>
     
@@ -654,7 +754,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Learning-to-Rank-for-Information-Retrieval"><span class="nav-number">1.</span> <span class="nav-text">Learning to Rank for Information Retrieval</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标：本周内读完前11页的内容"><span class="nav-number">1.1.</span> <span class="nav-text">目标：本周内读完前11页的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-1-Overiew"><span class="nav-number">1.2.</span> <span class="nav-text">Chapter 1 Overiew</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Ranking-in-IR"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2 Ranking in IR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的方法"><span class="nav-number">1.3.</span> <span class="nav-text">传统的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#重要的排序模型"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">重要的排序模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Query-Level-Position-Based-Evaluations-基于query位置的评估方法"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">Query-Level Position-Based Evaluations 基于query位置的评估方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-rank"><span class="nav-number">1.4.</span> <span class="nav-text">Learning to rank</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Learning-to-Rank-for-Information-Retrieval"><span class="nav-number">1.</span> <span class="nav-text">Learning to Rank for Information Retrieval</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标：本周内读完前11页的内容"><span class="nav-number">1.1.</span> <span class="nav-text">目标：本周内读完前11页的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-1-Overiew"><span class="nav-number">1.2.</span> <span class="nav-text">Chapter 1 Overiew</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Ranking-in-IR"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2 Ranking in IR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的方法"><span class="nav-number">1.3.</span> <span class="nav-text">传统的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#重要的排序模型"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">重要的排序模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Query-Level-Position-Based-Evaluations-基于query位置的评估方法"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">Query-Level Position-Based Evaluations 基于query位置的评估方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-rank"><span class="nav-number">1.4.</span> <span class="nav-text">Learning to rank</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Machine-Learning-Framework"><span class="nav-number">1.4.1.</span> <span class="nav-text">Machine Learning Framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Learning-to-rank定义"><span class="nav-number">1.4.2.</span> <span class="nav-text">Learning to rank定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Learning-to-Rank-Framework"><span class="nav-number">1.4.3.</span> <span class="nav-text">Learning-to-Rank Framework</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pointwise方法"><span class="nav-number">1.5.</span> <span class="nav-text">Pointwise方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pairwise方法"><span class="nav-number">1.5.1.</span> <span class="nav-text">Pairwise方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Listwise方法"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">Listwise方法</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter2-The-Pointwise方法"><span class="nav-number">2.</span> <span class="nav-text">Chapter2 The Pointwise方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Regression-Based-Algorithms"><span class="nav-number">2.1.</span> <span class="nav-text">Regression-Based Algorithms</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Subset-Ranking-with-Regression"><span class="nav-number">2.1.1.</span> <span class="nav-text">Subset Ranking with Regression</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Classiﬁcation-Based-Algorithms"><span class="nav-number">2.2.</span> <span class="nav-text">Classiﬁcation-Based Algorithms</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二元分类"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">二元分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基于SVM的方法"><span class="nav-number">2.2.0.1.1.</span> <span class="nav-text">基于SVM的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Logistic-Regression-Based-Method"><span class="nav-number">2.2.0.1.2.</span> <span class="nav-text">Logistic Regression-Based Method</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-class-Classiﬁcation-for-Ranking"><span class="nav-number">2.2.1.</span> <span class="nav-text">Multi-class Classiﬁcation for Ranking</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting-Tree-Based-Method"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Boosting Tree-Based Method</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Association-Rule-Mining-Based-Method-基于关联规则挖掘的方法"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">Association Rule Mining-Based Method 基于关联规则挖掘的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于序数回归的算法"><span class="nav-number">2.2.2.</span> <span class="nav-text">基于序数回归的算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Perceptron-Based-Ranking-PRanking"><span class="nav-number">2.2.2.0.0.1.</span> <span class="nav-text">Perceptron-Based Ranking (PRanking)</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Ranking-with-Large-Margin-Principles"><span class="nav-number">2.2.2.0.1.</span> <span class="nav-text">Ranking with Large Margin Principles</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讨论"><span class="nav-number">2.3.</span> <span class="nav-text">讨论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与相关反馈的关系"><span class="nav-number">2.3.1.</span> <span class="nav-text">与相关反馈的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pointwise算法问题"><span class="nav-number">2.3.2.</span> <span class="nav-text">Pointwise算法问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进方法"><span class="nav-number">2.3.3.</span> <span class="nav-text">改进方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-3-The-PairWise-方法"><span class="nav-number">3.</span> <span class="nav-text">Chapter 3 The PairWise 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例算法"><span class="nav-number">3.1.</span> <span class="nav-text">示例算法</span></a></li></ol></li></div>
             
 
           </div>
